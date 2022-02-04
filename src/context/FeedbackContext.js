@@ -40,9 +40,18 @@ export const FeedbackProvider = ({children}) => {
       }
 
       // handle adding feedback
-      const addFeedback = (newFeedback) => {
-        newFeedback.id = uuidv4();
-        setFeedback([newFeedback, ...feedback]);
+      async function addFeedback(newFeedback) {
+        const response = await fetch ('/feedback', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newFeedback)
+        })
+
+        const data = await response.json()
+
+        setFeedback([data, ...feedback])
       }
 
       const updateFeedback = (id, updItem) => {
